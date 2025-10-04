@@ -33,16 +33,7 @@ jobs:
           export PYTHONPATH=${PYTHONPATH}:$(pwd)
           pytest
 
-      # Step 5: Build Streamlit App Package (optional)
-      - name: Package App
+      # Step 5: Deploy Gradio Demo
+      - name: Run Gradio Demo (share)
         run: |
-          echo "Packaging app (optional, can add more build steps here)"
-      
-      # Step 6: Deploy Streamlit App
-      - name: Deploy to Streamlit
-        uses: streamlit/action@v1
-        with:
-          repo: ${{ github.repository }}
-          branch: main
-          token: ${{ secrets.GITHUB_TOKEN }}
-          
+          python gradio_app.py
