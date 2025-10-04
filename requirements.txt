@@ -1,1 +1,5 @@
 pytest
+streamlit
+pandas
+numpy
+scikit-learn
