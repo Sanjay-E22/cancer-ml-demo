@@ -1,32 +1,47 @@
-name: CI Pipeline
+name: CI/CD Pipeline
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   pull_request:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
   build-test:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout repo
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
+      # Step 2: Setup Python
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.10"
 
+      # Step 3: Install dependencies
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      # Step 4: Run Tests
       - name: Run Tests
         run: |
           export PYTHONPATH=${PYTHONPATH}:$(pwd)
           pytest
+
+      # Step 5: Build Streamlit App Package (optional)
+      - name: Package App
+        run: |
+          echo "Packaging app (optional, can add more build steps here)"
+      
+      # Step 6: Deploy Streamlit App
+      - name: Deploy to Streamlit
+        uses: streamlit/action@v1
+        with:
+          repo: ${{ github.repository }}
+          branch: main
+          token: ${{ secrets.GITHUB_TOKEN }}
